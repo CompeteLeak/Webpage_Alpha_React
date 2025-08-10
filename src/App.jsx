@@ -19,7 +19,7 @@ function App() {
           <li>
             <Link to="/apexStats">Apex Stuff</Link>
           </li>
-          <li> 
+          <li>
             <Link to="/TeamWheel"> Spin Team Wheel !</Link>
           </li>
         </ul>
