@@ -1,20 +1,23 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+
+const ALL_PLAYERS = ['Alice', 'Bob', 'Charlie', 'Diana', 'Ethan', 'Fiona'];
+const COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
 
 function TeamWheel() {
-  const [players] = useState(['Alice', 'Bob', 'Charlie', 'Diana', 'Ethan', 'Fiona']);
-  const [order, setOrder] = useState([]);
+  const [remaining, setRemaining] = useState([...ALL_PLAYERS]);
+  const [selectedOrder, setSelectedOrder] = useState([]);
   const [spinning, setSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0);
+  const [lastPicked, setLastPicked] = useState(null);
 
   const canvasRef = useRef(null);
+  const rotationRef = useRef(0);
 
-  const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
-
-  const drawWheel = (rot) => {
+  const drawWheel = useCallback((rot, names) => {
     const canvas = canvasRef.current;
+    if (!canvas || names.length === 0) return;
     const ctx = canvas.getContext('2d');
     const size = canvas.width;
-    const numSegments = players.length;
+    const numSegments = names.length;
     const segmentAngle = (2 * Math.PI) / numSegments;
 
     ctx.clearRect(0, 0, size, size);
@@ -22,83 +25,114 @@ function TeamWheel() {
     ctx.translate(size / 2, size / 2);
     ctx.rotate(rot);
 
-    // Draw wheel segments
     for (let i = 0; i < numSegments; i++) {
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.fillStyle = colors[i % colors.length];
+      ctx.fillStyle = COLORS[i % COLORS.length];
       ctx.arc(0, 0, size / 2, i * segmentAngle, (i + 1) * segmentAngle);
       ctx.fill();
       ctx.stroke();
 
-      // Draw text
       ctx.save();
       ctx.fillStyle = 'white';
       ctx.rotate(i * segmentAngle + segmentAngle / 2);
       ctx.textAlign = 'right';
       ctx.font = 'bold 16px sans-serif';
-      ctx.fillText(players[i], size / 2 - 10, 5);
+      ctx.fillText(names[i], size / 2 - 10, 5);
       ctx.restore();
     }
     ctx.restore();
 
-    // Draw pointer
+    // Pointer at bottom, tip pointing up into wheel
     ctx.beginPath();
-    ctx.moveTo(size / 2, size - 20); // tip toward wheel
-    ctx.lineTo(size / 2 - 10, size); // bottom left
-    ctx.lineTo(size / 2 + 10, size); // bottom right
+    ctx.moveTo(size / 2, size - 20);
+    ctx.lineTo(size / 2 - 10, size);
+    ctx.lineTo(size / 2 + 10, size);
     ctx.closePath();
     ctx.fillStyle = 'black';
     ctx.fill();
+  }, []);
+
+  useEffect(() => {
+    drawWheel(rotationRef.current, remaining);
+  }, [remaining, drawWheel]);
+
+  const getWinner = (finalRot, names) => {
+    const segmentAngle = (2 * Math.PI) / names.length;
+    // Pointer sits at π/2 (straight down) in canvas coordinate space
+    const pointerAngle = Math.PI / 2;
+    const relative = ((pointerAngle - finalRot) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+    return names[Math.floor(relative / segmentAngle) % names.length];
   };
 
   const spinWheel = () => {
-    if (spinning) return;
+    if (spinning || remaining.length === 0) return;
     setSpinning(true);
+    setLastPicked(null);
 
-    // Generate random order
-    const shuffled = [...players].sort(() => Math.random() - 0.5);
-    setOrder(shuffled);
+    const spinTimeTotal = Math.random() * 3000 + 3000;
+    const spinAngleStart = Math.random() * 10 + 10;
+    const startTime = performance.now();
+    // Capture remaining at spin start — stable reference for this spin's closure
+    const names = [...remaining];
+    let currentRot = rotationRef.current;
 
-    let spinTime = 0;
-    let spinTimeTotal = Math.random() * 3000 + 3000; // 3–6 seconds
-    let startRotation = rotation;
-    let spinAngleStart = Math.random() * 10 + 10;
+    const rotate = (now) => {
+      const spinTime = now - startTime;
 
-    const rotate = () => {
-      spinTime += 30;
       if (spinTime >= spinTimeTotal) {
+        rotationRef.current = currentRot;
+        const winner = getWinner(currentRot, names);
+        setLastPicked(winner);
+        setSelectedOrder(prev => [...prev, winner]);
         setSpinning(false);
+        setRemaining(prev => {
+          const next = prev.filter(n => n !== winner);
+          if (next.length === 0) {
+            // All players picked — reset after a short pause
+            setTimeout(() => {
+              rotationRef.current = 0;
+              setRemaining([...ALL_PLAYERS]);
+              setSelectedOrder([]);
+              setLastPicked(null);
+            }, 2500);
+          }
+          return next;
+        });
         return;
       }
+
       const spinAngle = spinAngleStart * Math.exp(-spinTime / spinTimeTotal);
-      startRotation += spinAngle * (Math.PI / 180);
-      setRotation(startRotation);
-      drawWheel(startRotation);
+      currentRot += spinAngle * (Math.PI / 180);
+      rotationRef.current = currentRot;
+      drawWheel(currentRot, names);
       requestAnimationFrame(rotate);
     };
 
-    rotate();
+    requestAnimationFrame(rotate);
   };
 
-  React.useEffect(() => {
-    drawWheel(rotation);
-  }, [players]);
+  const allSelected = remaining.length === 0;
 
   return (
     <div style={{ textAlign: 'center' }}>
       <h2>Team Wheel</h2>
       <canvas ref={canvasRef} width={300} height={300} style={{ border: '2px solid black' }} />
       <br />
-      <button onClick={spinWheel} disabled={spinning}>
-        {spinning ? 'Spinning...' : 'Spin'}
+      <button onClick={spinWheel} disabled={spinning || allSelected}>
+        {spinning ? 'Spinning...' : allSelected ? 'Resetting...' : 'Spin'}
       </button>
-      <h3>Random Order:</h3>
-      <ol>
-        {order.map((name, idx) => (
-          <li key={idx}>{name}</li>
-        ))}
-      </ol>
+      {lastPicked && <h3>Selected: {lastPicked}</h3>}
+      {selectedOrder.length > 0 && (
+        <>
+          <h4>Selection Order:</h4>
+          <ol>
+            {selectedOrder.map((name, idx) => (
+              <li key={idx}>{name}</li>
+            ))}
+          </ol>
+        </>
+      )}
     </div>
   );
 }
