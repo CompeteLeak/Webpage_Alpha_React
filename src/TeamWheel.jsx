@@ -138,3 +138,97 @@ function TeamWheel() {
 }
 
 export default TeamWheel;
+
+
+
+
+
+
+
+
+
+
+
+// # TeamWheel Component
+
+// **Created:** 2026-04-05
+
+// ---
+
+// ## What is it?
+
+// TeamWheel is an interactive spinning wheel used to randomly select names from a group, one at a time. Each spin physically lands the pointer on a segment of the wheel, and that person is chosen. Once selected, their name is removed from the wheel so they cannot be picked again — the remaining segments grow to fill the space.
+
+// This continues until every name in the group has been selected once, at which point the wheel automatically resets and the process can begin again. The order of selection is logged below the wheel as you go.
+
+// It is useful for fairly and visibly selecting the order of turns, team assignments, or any situation where you want a transparent random selection from a group.
+
+// ---
+
+// ## Project Stack
+
+// | Package | Version |
+// |---|---|
+// | React | ^19.1.0 |
+// | React DOM | ^19.1.0 |
+// | React Router DOM | ^6.30.1 |
+// | Vite | ^6.3.5 |
+// | @vitejs/plugin-react | ^4.4.1 |
+
+// Node.js is required to run the project. The wheel is rendered using the browser's built-in HTML Canvas API — no charting or animation libraries are needed.
+
+// ---
+
+// ## Getting Started
+
+// **1. Install dependencies**
+
+// ```bash
+// npm install
+// ```
+
+// **2. Start the development server**
+
+// ```bash
+// npm run dev
+// ```
+
+// The app will be available at `http://localhost:5173` by default.
+
+// **3. Build for production**
+
+// ```bash
+// npm run build
+// ```
+
+// **4. Preview the production build locally**
+
+// ```bash
+// npm run preview
+// ```
+
+// ---
+
+// ## Using the Component
+
+// Import and drop `TeamWheel` into any page:
+
+// ```jsx
+// import TeamWheel from './TeamWheel';
+
+// function App() {
+//   return <TeamWheel />;
+// }
+// ```
+
+// To change the names on the wheel, edit the `ALL_PLAYERS` constant at the top of [TeamWheel.jsx](./TeamWheel.jsx):
+
+// ```js
+// const ALL_PLAYERS = ['Alice', 'Bob', 'Charlie', 'Diana', 'Ethan', 'Fiona'];
+// ```
+
+// ---
+
+// ## How the Selection Works
+
+// The winner is not chosen in advance. The wheel spins with a randomised duration and deceleration. When it stops, the angle of the final resting position is used to calculate which segment sits under the pointer — that is the selected name. This means the result is genuinely determined by where the wheel lands, not by a behind-the-scenes random draw.

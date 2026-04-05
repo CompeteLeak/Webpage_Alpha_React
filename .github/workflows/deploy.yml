@@ -11,6 +11,11 @@ permissions:
   pages: write
   id-token: write
 
+# Only allow one deployment at a time
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -21,7 +26,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -30,13 +36,13 @@ jobs:
         run: npm run build
 
       - name: Configure GitHub Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact for GitHub Pages
-        # use v2 which no longer depends on the deprecated upload-artifact v3
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        id: deployment
+        uses: actions/deploy-pages@v4
