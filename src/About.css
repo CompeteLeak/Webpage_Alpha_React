@@ -1,0 +1,186 @@
+/*
+ * About.css
+ * All spacing, sizing, and timing values derived from the Fibonacci sequence
+ * and the golden ratio (φ = 1.618).
+ *
+ * Fibonacci px scale used: 3 5 8 13 21 34 55 89
+ * Typography scale (px):   13 21 34 55
+ * Animation delays (s):    0.3 0.5 0.8 1.3 2.1  (Fibonacci tenths)
+ * Line height:             1.618  (φ itself)
+ */
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+
+.about-container {
+  position: relative;
+  min-height: calc(100vh - 89px); /* 89 — Fibonacci */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 55px 34px; /* 55, 34 — Fibonacci */
+}
+
+/* Canvas sits behind everything, fills the container */
+.about-spiral {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Content rides above the canvas */
+.about-content {
+  position: relative;
+  z-index: 1;
+  max-width: 89ch;         /* 89 — Fibonacci */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;               /* 34 — Fibonacci */
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+
+.about-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;               /* 8 — Fibonacci */
+  animation: fibFadeUp 1s ease both;
+}
+
+.about-eyebrow {
+  font-size: 13px;         /* 13 — Fibonacci */
+  letter-spacing: 0.34em;  /* 34 — Fibonacci (×0.01em) */
+  color: #00f0ff;
+  text-shadow: 0 0 8px #00f0ffaa;
+  opacity: 0.75;
+}
+
+.about-name {
+  font-size: clamp(34px, 7vw, 55px); /* 34 min → 55 max — both Fibonacci */
+  color: #00f0ff;
+  text-shadow:
+    0 0 13px #00f0ffcc,   /* 13 — Fibonacci */
+    0 0 34px #00f0ff55;   /* 34 — Fibonacci */
+  letter-spacing: 5px;    /* 5 — Fibonacci */
+  margin: 0;
+  line-height: 1;
+}
+
+.about-archetype {
+  font-size: 13px;         /* 13 — Fibonacci */
+  color: #d1d1d1cc;
+  letter-spacing: 0.08em;
+  line-height: 1.618;      /* φ */
+  margin: 0;
+}
+
+/* ── Bio ─────────────────────────────────────────────────────────────────── */
+
+.about-bio {
+  font-size: 13px;         /* 13 — Fibonacci */
+  color: #d1d1d1bb;
+  line-height: 1.618;      /* φ */
+  margin: 0;
+  padding-left: 21px;      /* 21 — Fibonacci */
+  border-left: 2px solid #00f0ff44; /* 2 — Fibonacci */
+  animation: fibFadeUp 1s 0.3s ease both;
+}
+
+/* ── Trait cards ─────────────────────────────────────────────────────────── */
+
+.about-traits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;                /* 8 — Fibonacci */
+}
+
+.about-trait {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;                /* 3 — Fibonacci */
+  padding: 13px 21px;      /* 13, 21 — Fibonacci */
+  border: 1px solid #00f0ff1a;
+  border-left: 3px solid #00f0ff55; /* 3 — Fibonacci */
+  background: rgba(0, 240, 255, 0.03);
+  border-radius: 2px;      /* 2 — Fibonacci */
+  opacity: 0;
+  animation: fibFadeUp 0.8s ease both;
+  transition: border-left-color 0.3s ease, background 0.3s ease;
+}
+
+.about-trait:hover {
+  border-left-color: #00f0ff;
+  background: rgba(0, 240, 255, 0.07);
+}
+
+.trait-label {
+  font-size: 13px;         /* 13 — Fibonacci */
+  color: #00f0ff;
+  text-shadow: 0 0 8px #00f0ff77;
+  letter-spacing: 0.05em;
+}
+
+.trait-desc {
+  font-size: 13px;         /* 13 — Fibonacci */
+  color: #d1d1d1aa;
+  line-height: 1.618;      /* φ */
+}
+
+/* ── Sign-off ────────────────────────────────────────────────────────────── */
+
+.about-sign-off {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;                /* 5 — Fibonacci */
+  padding-top: 21px;       /* 21 — Fibonacci */
+  border-top: 1px solid #00f0ff1a;
+  animation: fibFadeUp 1s 2.1s ease both; /* 2.1 — Fibonacci delay */
+}
+
+.about-sign-off p {
+  margin: 0;
+  font-size: 13px;         /* 13 — Fibonacci */
+  color: #d1d1d1aa;
+  letter-spacing: 0.08em;
+  line-height: 1.618;      /* φ */
+}
+
+.about-sign-off--lit {
+  color: #00f0ff !important;
+  text-shadow: 0 0 8px #00f0ff66;
+}
+
+/* ── Keyframe ─────────────────────────────────────────────────────────────── */
+
+@keyframes fibFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(21px); /* 21 — Fibonacci */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .about-container {
+    padding: 34px 13px;    /* 34, 13 — Fibonacci */
+  }
+
+  .about-content {
+    gap: 21px;             /* 21 — Fibonacci */
+  }
+
+  .about-trait {
+    padding: 13px;         /* 13 — Fibonacci */
+  }
+}
