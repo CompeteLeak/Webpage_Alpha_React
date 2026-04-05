@@ -3,14 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://CompeteLeak.github.io/my-app",
+  "homepage": "https://CompeteLeak.github.io/Webpage_Alpha_React",
   "scripts": {
     "dev": "vite",
     "build": "vite build --base /Webpage_Alpha_React/",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.1.0",

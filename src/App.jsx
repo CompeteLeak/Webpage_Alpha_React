@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './App.css';
 import ApexStats from './ApexStats';
 import TeamWheel from './TeamWheel';
@@ -7,8 +6,6 @@ import Footer from './Footer';
 import { Routes, Route, Link } from 'react-router-dom';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div>
       <nav className="nav">
@@ -26,7 +23,7 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<About></About>}></Route>
-        <Route path="/apexstats" element={<ApexStats></ApexStats>}></Route>
+        <Route path="/apexStats" element={<ApexStats></ApexStats>}></Route>
         <Route path="/TeamWheel" element={<TeamWheel></TeamWheel>}></Route>
       </Routes>
       <Footer></Footer>
