@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Tab & Research Summarizer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f0f11;
+      color: #e8e8f0;
+      padding: 48px 24px;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #c084fc;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #6b6b80;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #c084fc;
+      margin-top: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #b8b8cc;
+      margin-bottom: 12px;
+    }
+
+    ul {
+      font-size: 14px;
+      color: #b8b8cc;
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    ul li { margin-bottom: 6px; }
+
+    a { color: #c084fc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #2a2a3a;
+      margin: 40px 0;
+    }
+
+    footer {
+      font-size: 12px;
+      color: #4a4a5a;
+      margin-top: 48px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Privacy Policy</h1>
+  <p class="subtitle">Tab &amp; Research Summarizer Chrome Extension &mdash; Last updated: April 2026</p>
+
+  <p>
+    This Privacy Policy describes how the Tab &amp; Research Summarizer Chrome Extension
+    ("the Extension") collects, uses, and handles your information.
+  </p>
+
+  <h2>What Data We Collect</h2>
+  <p>The Extension collects only what is necessary to summarize the page you are viewing:</p>
+  <ul>
+    <li><strong>Page URL</strong> — the address of the tab you choose to summarize.</li>
+    <li><strong>Page text content</strong> — the visible text extracted from the page at the moment you click "Summarize". A maximum of 8,000 characters is sent.</li>
+    <li><strong>API key (optional)</strong> — if you enter a paid API key, it is stored locally in Chrome's storage.sync and never transmitted to any third party.</li>
+  </ul>
+
+  <h2>What We Do Not Collect</h2>
+  <ul>
+    <li>We do not collect browsing history.</li>
+    <li>We do not collect data from pages you do not explicitly choose to summarize.</li>
+    <li>We do not collect personal identifying information beyond what you voluntarily provide.</li>
+    <li>We do not use cookies or analytics trackers.</li>
+  </ul>
+
+  <h2>How Your Data Is Used</h2>
+  <p>
+    The page URL and text content you submit are sent to our backend API
+    (hosted on Railway) solely to generate a summary using the Anthropic Claude API.
+    The data is not stored, logged, or shared beyond what is required to return the
+    summary response to you.
+  </p>
+  <p>
+    Anonymous free tier requests are rate-limited by a one-way hash of your IP address.
+    The raw IP address is never stored.
+  </p>
+
+  <h2>Third-Party Services</h2>
+  <ul>
+    <li>
+      <strong>Anthropic Claude API</strong> — page content is processed by Anthropic to
+      generate summaries. See <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener">Anthropic's Privacy Policy</a>.
+    </li>
+    <li>
+      <strong>Lemon Squeezy</strong> — used for payment processing if you purchase a paid plan.
+      See <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">Lemon Squeezy's Privacy Policy</a>.
+    </li>
+  </ul>
+
+  <h2>Data Retention</h2>
+  <p>
+    We do not store the content of summarized pages. Your API key is stored only in
+    your local Chrome profile via chrome.storage.sync and can be removed at any time
+    by clearing the field in the extension's settings panel.
+  </p>
+
+  <h2>Children's Privacy</h2>
+  <p>
+    This Extension is not directed at children under 13. We do not knowingly collect
+    information from children.
+  </p>
+
+  <h2>Changes to This Policy</h2>
+  <p>
+    We may update this policy from time to time. The "Last updated" date at the top
+    of this page will reflect any changes.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    If you have questions about this privacy policy, please open an issue on our
+    <a href="https://github.com/CompeteLeak/tabSummaryApi" target="_blank" rel="noopener">GitHub repository</a>.
+  </p>
+
+  <hr class="divider" />
+
+  <footer>&copy; 2026 CompeteLeak. Tab &amp; Research Summarizer.</footer>
+
+</body>
+</html>
