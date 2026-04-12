@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy — Tab & Research Summarizer</title>
+  <title>Tab & Research Summarizer</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -11,141 +11,408 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #0f0f11;
       color: #e8e8f0;
-      padding: 48px 24px;
-      max-width: 720px;
-      margin: 0 auto;
-      line-height: 1.7;
+      min-height: 100vh;
     }
 
-    h1 {
-      font-size: 28px;
-      color: #c084fc;
-      margin-bottom: 8px;
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid #1e1e2e;
     }
 
-    .subtitle {
-      font-size: 14px;
-      color: #6b6b80;
-      margin-bottom: 40px;
-    }
-
-    h2 {
+    .nav-logo {
       font-size: 16px;
       font-weight: 700;
       color: #c084fc;
-      margin-top: 32px;
-      margin-bottom: 10px;
     }
 
-    p {
-      font-size: 14px;
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
+      background: #1a1a24;
+      border: 1px solid #2a2a3a;
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .nav-tab {
+      background: none;
+      border: none;
+      color: #6b6b80;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 18px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-tab:hover { color: #e8e8f0; }
+    .nav-tab.active { background: #c084fc22; color: #c084fc; }
+
+    /* ── Panels ── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── Landing ── */
+    .landing {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #c084fc22;
+      border: 1px solid #c084fc44;
+      color: #c084fc;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+    }
+
+    .landing h1 {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #e8e8f0, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .landing .sub {
+      font-size: 18px;
+      color: #8888a0;
+      max-width: 560px;
+      margin: 0 auto 48px;
+      line-height: 1.6;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 80px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #c084fc, #818cf8);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 32px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      background: #1a1a24;
+      border: 1px solid #2a2a3a;
+      border-radius: 10px;
       color: #b8b8cc;
-      margin-bottom: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 32px;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s;
+    }
+    .btn-secondary:hover { border-color: #c084fc55; color: #e8e8f0; }
+
+    .steps {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 80px;
     }
 
-    ul {
+    .step {
+      background: #1a1a24;
+      border: 1px solid #2a2a3a;
+      border-radius: 14px;
+      padding: 28px 24px;
+      width: 220px;
+    }
+
+    .step-num { font-size: 28px; margin-bottom: 12px; }
+
+    .step h3 {
       font-size: 14px;
+      font-weight: 700;
+      color: #e8e8f0;
+      margin-bottom: 8px;
+    }
+
+    .step p { font-size: 13px; color: #6b6b80; line-height: 1.5; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #c084fc;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 40px;
+    }
+
+    .pricing {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .plan {
+      background: #1a1a24;
+      border: 1px solid #2a2a3a;
+      border-radius: 16px;
+      padding: 32px 28px;
+      width: 280px;
+      text-align: left;
+    }
+
+    .plan.featured {
+      border-color: #c084fc55;
+      background: linear-gradient(160deg, #1e1428, #1a1a24);
+    }
+
+    .plan-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6b6b80;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .plan.featured .plan-name { color: #c084fc; }
+
+    .plan-price {
+      font-size: 36px;
+      font-weight: 800;
+      color: #e8e8f0;
+      margin-bottom: 4px;
+    }
+
+    .plan-period { font-size: 13px; color: #6b6b80; margin-bottom: 24px; }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .plan-features li {
+      font-size: 13px;
       color: #b8b8cc;
       padding-left: 20px;
-      margin-bottom: 12px;
+      position: relative;
     }
 
-    ul li { margin-bottom: 6px; }
-
-    a { color: #c084fc; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .divider {
-      border: none;
-      border-top: 1px solid #2a2a3a;
-      margin: 40px 0;
+    .plan-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #c084fc;
+      font-weight: 700;
     }
 
-    footer {
-      font-size: 12px;
-      color: #4a4a5a;
-      margin-top: 48px;
+    .plan-btn {
+      display: block;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 11px;
+      text-decoration: none;
+      transition: opacity 0.2s;
     }
+
+    .plan-btn.outline { border: 1px solid #2a2a3a; color: #b8b8cc; }
+    .plan-btn.outline:hover { border-color: #c084fc55; color: #e8e8f0; }
+    .plan-btn.filled { background: linear-gradient(135deg, #c084fc, #818cf8); color: white; border: none; }
+    .plan-btn.filled:hover { opacity: 0.85; }
+
+    /* ── Privacy panel ── */
+    .privacy {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+      line-height: 1.7;
+    }
+
+    .privacy h1 { font-size: 28px; color: #c084fc; margin-bottom: 8px; }
+    .privacy .subtitle { font-size: 14px; color: #6b6b80; margin-bottom: 40px; }
+    .privacy h2 { font-size: 16px; font-weight: 700; color: #c084fc; margin-top: 32px; margin-bottom: 10px; }
+    .privacy p { font-size: 14px; color: #b8b8cc; margin-bottom: 12px; }
+    .privacy ul { font-size: 14px; color: #b8b8cc; padding-left: 20px; margin-bottom: 12px; }
+    .privacy ul li { margin-bottom: 6px; }
+    .privacy a { color: #c084fc; text-decoration: none; }
+    .privacy a:hover { text-decoration: underline; }
+
+    .divider { border: none; border-top: 1px solid #2a2a3a; margin: 40px 0; }
+    footer { font-size: 12px; color: #4a4a5a; margin-top: 48px; }
   </style>
 </head>
 <body>
 
-  <h1>Privacy Policy</h1>
-  <p class="subtitle">Tab &amp; Research Summarizer Chrome Extension &mdash; Last updated: April 2026</p>
+  <nav>
+    <span class="nav-logo">✦ Tab Summarizer</span>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('landing', this)">Home</button>
+      <button class="nav-tab" onclick="showTab('privacy', this)">Privacy Policy</button>
+    </div>
+  </nav>
 
-  <p>
-    This Privacy Policy describes how the Tab &amp; Research Summarizer Chrome Extension
-    ("the Extension") collects, uses, and handles your information.
-  </p>
+  <!-- ── Landing ── -->
+  <div id="panel-landing" class="panel active">
+    <div class="landing">
 
-  <h2>What Data We Collect</h2>
-  <p>The Extension collects only what is necessary to summarize the page you are viewing:</p>
-  <ul>
-    <li><strong>Page URL</strong> — the address of the tab you choose to summarize.</li>
-    <li><strong>Page text content</strong> — the visible text extracted from the page at the moment you click "Summarize". A maximum of 8,000 characters is sent.</li>
-    <li><strong>API key (optional)</strong> — if you enter a paid API key, it is stored locally in Chrome's storage.sync and never transmitted to any third party.</li>
-  </ul>
+      <div class="badge">Chrome Extension &mdash; Powered by Claude AI</div>
+      <h1>Summarize any page<br/>in seconds</h1>
+      <p class="sub">Tab &amp; Research Summarizer reads the page you're on and returns a clean title, summary, and key points — instantly, without leaving your tab.</p>
 
-  <h2>What We Do Not Collect</h2>
-  <ul>
-    <li>We do not collect browsing history.</li>
-    <li>We do not collect data from pages you do not explicitly choose to summarize.</li>
-    <li>We do not collect personal identifying information beyond what you voluntarily provide.</li>
-    <li>We do not use cookies or analytics trackers.</li>
-  </ul>
+      <div class="cta-row">
+        <a class="btn-primary" href="#pricing">Get Pro Access</a>
+        <a class="btn-secondary" href="https://chrome.google.com/webstore" target="_blank" rel="noopener">Add to Chrome — Free</a>
+      </div>
 
-  <h2>How Your Data Is Used</h2>
-  <p>
-    The page URL and text content you submit are sent to our backend API
-    (hosted on Railway) solely to generate a summary using the Anthropic Claude API.
-    The data is not stored, logged, or shared beyond what is required to return the
-    summary response to you.
-  </p>
-  <p>
-    Anonymous free tier requests are rate-limited by a one-way hash of your IP address.
-    The raw IP address is never stored.
-  </p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">🌐</div>
+          <h3>Visit any page</h3>
+          <p>Works on articles, docs, research papers, and more.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">⚡</div>
+          <h3>Click Summarize</h3>
+          <p>One click sends the page to our AI backend.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">✦</div>
+          <h3>Get your summary</h3>
+          <p>Title, summary, and key points returned in seconds.</p>
+        </div>
+      </div>
 
-  <h2>Third-Party Services</h2>
-  <ul>
-    <li>
-      <strong>Anthropic Claude API</strong> — page content is processed by Anthropic to
-      generate summaries. See <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener">Anthropic's Privacy Policy</a>.
-    </li>
-    <li>
-      <strong>Lemon Squeezy</strong> — used for payment processing if you purchase a paid plan.
-      See <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">Lemon Squeezy's Privacy Policy</a>.
-    </li>
-  </ul>
+      <div id="pricing">
+        <div class="section-label">Pricing</div>
+        <div class="section-title">Simple, honest pricing</div>
+        <div class="pricing">
+          <div class="plan">
+            <div class="plan-name">Free</div>
+            <div class="plan-price">$0</div>
+            <div class="plan-period">forever</div>
+            <ul class="plan-features">
+              <li>20 summaries per month</li>
+              <li>All page types supported</li>
+              <li>Key points extraction</li>
+              <li>No account required</li>
+            </ul>
+            <a class="plan-btn outline" href="https://chrome.google.com/webstore" target="_blank" rel="noopener">Add to Chrome</a>
+          </div>
+          <div class="plan featured">
+            <div class="plan-name">Pro</div>
+            <div class="plan-price">$2.99</div>
+            <div class="plan-period">per month</div>
+            <ul class="plan-features">
+              <li>Unlimited summaries</li>
+              <li>All page types supported</li>
+              <li>Key points extraction</li>
+              <li>Priority API access</li>
+              <li>Personal API key</li>
+            </ul>
+            <a class="plan-btn filled" href="#">Get Pro</a>
+          </div>
+        </div>
+      </div>
 
-  <h2>Data Retention</h2>
-  <p>
-    We do not store the content of summarized pages. Your API key is stored only in
-    your local Chrome profile via chrome.storage.sync and can be removed at any time
-    by clearing the field in the extension's settings panel.
-  </p>
+    </div>
+  </div>
 
-  <h2>Children's Privacy</h2>
-  <p>
-    This Extension is not directed at children under 13. We do not knowingly collect
-    information from children.
-  </p>
+  <!-- ── Privacy Policy ── -->
+  <div id="panel-privacy" class="panel">
+    <div class="privacy">
 
-  <h2>Changes to This Policy</h2>
-  <p>
-    We may update this policy from time to time. The "Last updated" date at the top
-    of this page will reflect any changes.
-  </p>
+      <h1>Privacy Policy</h1>
+      <p class="subtitle">Tab &amp; Research Summarizer Chrome Extension &mdash; Last updated: April 2026</p>
 
-  <h2>Contact</h2>
-  <p>
-    If you have questions about this privacy policy, please open an issue on our
-    <a href="https://github.com/CompeteLeak/tabSummaryApi" target="_blank" rel="noopener">GitHub repository</a>.
-  </p>
+      <p>This Privacy Policy describes how the Tab &amp; Research Summarizer Chrome Extension ("the Extension") collects, uses, and handles your information.</p>
 
-  <hr class="divider" />
+      <h2>What Data We Collect</h2>
+      <p>The Extension collects only what is necessary to summarize the page you are viewing:</p>
+      <ul>
+        <li><strong>Page URL</strong> — the address of the tab you choose to summarize.</li>
+        <li><strong>Page text content</strong> — the visible text extracted from the page at the moment you click "Summarize". A maximum of 8,000 characters is sent.</li>
+        <li><strong>API key (optional)</strong> — if you enter a paid API key, it is stored locally in Chrome's storage.sync and never transmitted to any third party.</li>
+      </ul>
 
-  <footer>&copy; 2026 CompeteLeak. Tab &amp; Research Summarizer.</footer>
+      <h2>What We Do Not Collect</h2>
+      <ul>
+        <li>We do not collect browsing history.</li>
+        <li>We do not collect data from pages you do not explicitly choose to summarize.</li>
+        <li>We do not collect personal identifying information beyond what you voluntarily provide.</li>
+        <li>We do not use cookies or analytics trackers.</li>
+      </ul>
+
+      <h2>How Your Data Is Used</h2>
+      <p>The page URL and text content you submit are sent to our backend API (hosted on Railway) solely to generate a summary using the Anthropic Claude API. The data is not stored, logged, or shared beyond what is required to return the summary response to you.</p>
+      <p>Anonymous free tier requests are rate-limited by a one-way hash of your IP address. The raw IP address is never stored.</p>
+
+      <h2>Third-Party Services</h2>
+      <ul>
+        <li><strong>Anthropic Claude API</strong> — page content is processed by Anthropic to generate summaries. See <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener">Anthropic's Privacy Policy</a>.</li>
+        <li><strong>Lemon Squeezy</strong> — used for payment processing if you purchase a paid plan. See <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">Lemon Squeezy's Privacy Policy</a>.</li>
+      </ul>
+
+      <h2>Data Retention</h2>
+      <p>We do not store the content of summarized pages. Your API key is stored only in your local Chrome profile via chrome.storage.sync and can be removed at any time by clearing the field in the extension's settings panel.</p>
+
+      <h2>Children's Privacy</h2>
+      <p>This Extension is not directed at children under 13. We do not knowingly collect information from children.</p>
+
+      <h2>Changes to This Policy</h2>
+      <p>We may update this policy from time to time. The "Last updated" date at the top of this page will reflect any changes.</p>
+
+      <h2>Contact</h2>
+      <p>If you have questions about this privacy policy, please open an issue on our <a href="https://github.com/CompeteLeak/tabSummaryApi" target="_blank" rel="noopener">GitHub repository</a>.</p>
+
+      <hr class="divider" />
+      <footer>&copy; 2026 CompeteLeak. Tab &amp; Research Summarizer.</footer>
+    </div>
+  </div>
+
+  <script>
+    function showTab(name, btn) {
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+      document.getElementById("panel-" + name).classList.add("active");
+      btn.classList.add("active");
+    }
+  </script>
 
 </body>
 </html>
