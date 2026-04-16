@@ -345,8 +345,30 @@
               <li>Priority API access</li>
               <li>Personal API key</li>
             </ul>
-            <a class="plan-btn filled" href="#">Get Pro</a>
+            <a class="plan-btn filled" href="https://l0ewki-software.lemonsqueezy.com/checkout/buy/1092fc93-dc56-44ea-925e-4c1272c6c639" target="_blank" rel="noopener">Get Pro</a>
           </div>
+        </div>
+      </div>
+
+      <!-- Key lookup -->
+      <div style="margin-top:80px;max-width:560px;margin-left:auto;margin-right:auto;">
+        <button onclick="toggleLookup()" id="lookup-toggle"
+          style="width:100%;background:#1a1a24;border:1px solid #2a2a3a;border-radius:12px;color:#b8b8cc;font-size:14px;font-weight:600;padding:16px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:border-color 0.2s;">
+          <span>Already purchased? Find your API key</span>
+          <span id="lookup-chevron" style="color:#c084fc;font-size:18px;transition:transform 0.25s;">›</span>
+        </button>
+
+        <div id="lookup-panel" style="display:none;background:#1a1a24;border:1px solid #2a2a3a;border-top:none;border-radius:0 0 12px 12px;padding:24px 20px;">
+          <p style="color:#8888a0;font-size:13px;margin-bottom:16px;">Enter the email you used at checkout to retrieve your personal API key.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <input id="lookup-email" type="email" placeholder="your@email.com"
+              style="flex:1;min-width:180px;background:#0f0f11;border:1px solid #2a2a3a;border-radius:8px;color:#e8e8f0;font-size:14px;padding:11px 14px;outline:none;" />
+            <button onclick="lookupKey()"
+              style="background:linear-gradient(135deg,#c084fc,#818cf8);border:none;border-radius:8px;color:white;font-size:14px;font-weight:700;padding:11px 22px;cursor:pointer;white-space:nowrap;">
+              Find My Key
+            </button>
+          </div>
+          <div id="lookup-result" style="margin-top:14px;font-size:13px;min-height:16px;"></div>
         </div>
       </div>
 
@@ -411,6 +433,49 @@
       document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
       document.getElementById("panel-" + name).classList.add("active");
       btn.classList.add("active");
+    }
+
+    function toggleLookup() {
+      const panel = document.getElementById("lookup-panel");
+      const chevron = document.getElementById("lookup-chevron");
+      const toggle = document.getElementById("lookup-toggle");
+      const open = panel.style.display === "block";
+      panel.style.display = open ? "none" : "block";
+      chevron.style.transform = open ? "rotate(0deg)" : "rotate(90deg)";
+      toggle.style.borderRadius = open ? "12px" : "12px 12px 0 0";
+      toggle.style.borderColor = open ? "#2a2a3a" : "#c084fc55";
+    }
+
+    async function lookupKey() {
+      const email = document.getElementById("lookup-email").value.trim();
+      const result = document.getElementById("lookup-result");
+
+      if (!email) {
+        result.innerHTML = '<span style="color:#f87171;">Please enter your email.</span>';
+        return;
+      }
+
+      result.innerHTML = '<span style="color:#6b6b80;">Looking up…</span>';
+
+      try {
+        const res = await fetch(
+          "https://tabsummaryapi-production.up.railway.app/api/account/key-lookup?email=" + encodeURIComponent(email)
+        );
+        const data = await res.json();
+
+        if (res.ok) {
+          result.innerHTML = `
+            <div style="background:#1a1a24;border:1px solid #c084fc44;border-radius:8px;padding:14px;text-align:left;display:inline-block;">
+              <div style="font-size:11px;color:#6b6b80;margin-bottom:6px;">YOUR API KEY</div>
+              <div style="font-family:monospace;font-size:14px;color:#c084fc;letter-spacing:0.5px;">${data.apiKey}</div>
+              <div style="font-size:11px;color:#6b6b80;margin-top:8px;">Paste this into the ⚙ settings panel in the extension.</div>
+            </div>`;
+        } else {
+          result.innerHTML = `<span style="color:#f87171;">${data.error}</span>`;
+        }
+      } catch {
+        result.innerHTML = '<span style="color:#f87171;">Something went wrong. Please try again.</span>';
+      }
     }
   </script>
 
